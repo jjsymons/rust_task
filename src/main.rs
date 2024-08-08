@@ -11,10 +11,12 @@ fn main() {
             .read_line(&mut answer)
             .expect("Failed to get result");
 
-        let answer: String = match answer.trim().parse() {
+        let mut answer: String = match answer.trim().parse() {
             Ok(answer) => answer,
             Err(_) => continue,
         };
+
+        answer.make_ascii_uppercase();
 
         if answer == "A" {
             println!("A Given");
@@ -22,6 +24,8 @@ fn main() {
             println!("B Given");
         } if answer == "C" {
             println!("C Given");
+        } else {
+            println!("A input of something other than A, B, or C given:\n'{answer}'")
         }
         break
         
