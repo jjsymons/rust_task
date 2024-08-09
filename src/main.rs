@@ -58,7 +58,12 @@ fn task_delete(task_list: &mut Vec<String>) {
             println!("Error your input was 0");
         } else if answer > vector_size {
             println!("Error you entered a value greater than {vector_size}");
+        } else if answer == vector_size {
+            task_list.pop();
+        } else {
+            task_list.remove(answer.try_into().unwrap());
         }
+        return
     }
 }
 
@@ -90,6 +95,7 @@ fn get_input() -> String {
 
 fn continuation_response_question() -> bool {
     loop {
+        println!("Would you like to continue?:\n'Y'/'y' for yes or 'N'/'n' for no.");
         let mut str = get_input();
         str.make_ascii_uppercase();
 
