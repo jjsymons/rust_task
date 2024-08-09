@@ -4,6 +4,8 @@ fn main() {
     println!("Hello, welcome to your task reminder!");
 
     let mut task_vector: Vec<String> = vec![]; // Should probably change this to create a small csv
+    let mut proceed: bool = true;
+    let mut continuation_bool = String::new();
 
     loop {
         println!("Would you like to add a task (A), delete a task (B) or read your current tasks (C)?:\nPlease enter:\n'A', 'B' or 'C'");
@@ -14,14 +16,30 @@ fn main() {
         if answer == "A" {
             println!("A Given");
             task_create(&mut task_vector);
-            break
+            println!("Would you like to do continue working on the task?\n'Y' to continue, 'N' to exit.");
+            continuation_bool = continuation_response_question();
+            if continuation_response_question() == false {
+
+            } else {
+                
+            }
         } if answer == "B" {
             task_delete(&mut task_vector);
-            // Delete a task
+            continuation_bool = continuation_response_question();
+            if continuation_response_question() == false {
+
+            } else {
+                
+            }
         } if answer == "C" {
             // Display tasks
             println!("C Given");
             task_read(&task_vector);
+            if continuation_response_question() == false {
+
+            } else {
+
+            }
         } else {
             println!("A input of something other than A, B, or C given:\n'{answer}'");
             continue
@@ -52,7 +70,7 @@ fn task_delete(task_list: &mut Vec<String>) {
 
         if answer < 0 {
             println!("Error your input was 0");
-        } if answer > vector_size {
+        } else if answer > vector_size {
             println!("Error you entered a value greater than {vector_size}");
         }
     }
@@ -78,5 +96,20 @@ fn get_input() -> String {
         Err(_) => {println!("ERROR"); return Default::default()},
     };
     input
+}
+fn continuation_response_question() -> bool {
+    loop {
+        let mut str = get_input();
+        str.make_ascii_uppercase();
+        if str == "N" {
+            return false
+        } else if str == "Y" {
+            return true
+        } else {
+            println!("An input other than 'Y'/'y' or 'N'/'n'\nInput was: {str}");
+            continue
+        }
+    }
+    
 }
 
