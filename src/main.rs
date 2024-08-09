@@ -7,8 +7,8 @@ fn main() {
 
     loop {
         println!("Would you like to add a task (A), delete a task (B) or read your current tasks (C)?:\nPlease enter:\n'A', 'B' or 'C'");
+        
         let mut answer = get_input();
-
         answer.make_ascii_uppercase();
 
         if answer == "A" {
@@ -46,7 +46,7 @@ fn task_delete(task_list: &mut Vec<String>) {
 
         println!("Please give the number of the task you wish to remove from the list");
         println!("Please give an answer between 1 and {vector_size}");
-        
+
         let mut answer = get_input().parse::<i32>().unwrap();
         answer -= 1;
 
@@ -56,10 +56,8 @@ fn task_delete(task_list: &mut Vec<String>) {
             println!("Error you entered a value greater than {vector_size}");
         }
     }
-    
-
-
 }
+
 fn task_read(task_list: &Vec<String>) {
     // Will Show the task list
     let mut index = 1;
@@ -69,18 +67,16 @@ fn task_read(task_list: &Vec<String>) {
     }
 }
 
-
 fn get_input() -> String {
-    let mut answer = String::new();
+    let mut input = String::new();
     io::stdin()
-        .read_line(&mut answer)
+        .read_line(&mut input)
         .expect("Failed to get result");
 
-    let answer: String = match answer.trim().parse() {
-        Ok(answer) => answer,
+    let input: String = match input.trim().parse() {
+        Ok(input) => input,
         Err(_) => {println!("ERROR"); return Default::default()},
     };
-    
-    answer
+    input
 }
 
