@@ -14,6 +14,7 @@ fn main() {
         if answer == "A" {
             println!("A Given");
             task_create(&mut task_vector);
+            break
         } if answer == "B" {
             task_delete(&task_vector);
             // Delete a task
@@ -27,6 +28,7 @@ fn main() {
         }
         break
     }
+    task_read(&task_vector);
 }
 
 fn task_create(task_vector: &mut Vec<String>) -> &Vec<String> {
@@ -43,19 +45,23 @@ fn task_delete(task_list: &Vec<String>){
 }
 fn task_read(task_list: &Vec<String>){
     // Will Show the task list
+    let mut index = 1;
+    for task in task_list.iter() {
+        println!("{index}) {task}");
+        index += 1
+    }
 }
 
 
 fn get_input() -> String {
     let mut answer = String::new();
-    loop {
-        io::stdin() .read_line(&mut answer).expect("Failed to get result");
+    io::stdin() .read_line(&mut answer).expect("Failed to get result");
 
-        let answer: String = match answer.trim().parse() {
-            Ok(answer) => answer,
-            Err(_) => continue,
-        };
-    }
+    let answer: String = match answer.trim().parse() {
+        Ok(answer) => answer,
+        Err(_) => {println!("ERROR"); return Default::default()},
+    };
+    
     answer
 }
 
