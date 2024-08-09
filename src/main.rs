@@ -16,7 +16,7 @@ fn main() {
             task_create(&mut task_vector);
             break
         } if answer == "B" {
-            task_delete(&task_vector);
+            task_delete(&mut task_vector);
             // Delete a task
         } if answer == "C" {
             // Display tasks
@@ -40,22 +40,41 @@ fn task_create(task_vector: &mut Vec<String>) -> &Vec<String> {
     task_list
     
 }
-fn task_delete(task_list: &Vec<String>){
-    // Will remove a task from the task list
+fn task_delete(task_list: &mut Vec<String>) {
+    loop {
+        let vector_size: i32  = (task_list.len() - 1).try_into().unwrap();
+
+        println!("Please give the number of the task you wish to remove from the list");
+        println!("Please give an answer between 1 and {vector_size}");
+        
+        let mut answer = get_input().parse::<i32>().unwrap();
+        answer -= 1;
+
+        if answer < 0 {
+            println!("Error your input was 0");
+        } if answer > vector_size {
+            println!("Error you entered a value greater than {vector_size}");
+        }
+    }
+    
+
+
 }
-fn task_read(task_list: &Vec<String>){
+fn task_read(task_list: &Vec<String>) {
     // Will Show the task list
     let mut index = 1;
     for task in task_list.iter() {
         println!("{index}) {task}");
-        index += 1
+        index += 1;
     }
 }
 
 
 fn get_input() -> String {
     let mut answer = String::new();
-    io::stdin() .read_line(&mut answer).expect("Failed to get result");
+    io::stdin()
+        .read_line(&mut answer)
+        .expect("Failed to get result");
 
     let answer: String = match answer.trim().parse() {
         Ok(answer) => answer,
