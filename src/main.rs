@@ -4,10 +4,10 @@ fn main() {
     println!("Hello, welcome to your task reminder!");
 
     let mut task_vector: Vec<String> = vec![]; // Should probably change this to create a small csv
-    let mut proceed: bool = true;
-    let mut continuation_bool = String::new();
 
-    loop {
+    let mut continuation_bool = true;
+
+    while continuation_bool {
         println!("Would you like to add a task (A), delete a task (B) or read your current tasks (C)?:\nPlease enter:\n'A', 'B' or 'C'");
         
         let mut answer = get_input();
@@ -16,37 +16,23 @@ fn main() {
         if answer == "A" {
             println!("A Given");
             task_create(&mut task_vector);
-            println!("Would you like to do continue working on the task?\n'Y' to continue, 'N' to exit.");
             continuation_bool = continuation_response_question();
-            if continuation_response_question() == false {
-
-            } else {
-                
-            }
+            continue
         } if answer == "B" {
             task_delete(&mut task_vector);
             continuation_bool = continuation_response_question();
-            if continuation_response_question() == false {
-
-            } else {
-                
-            }
+            continue
         } if answer == "C" {
             // Display tasks
             println!("C Given");
             task_read(&task_vector);
-            if continuation_response_question() == false {
-
-            } else {
-
-            }
+            continuation_bool = continuation_response_question();
+            continue
         } else {
             println!("A input of something other than A, B, or C given:\n'{answer}'");
             continue
         }
-        break
     }
-    task_read(&task_vector);
 }
 
 fn task_create(task_vector: &mut Vec<String>) -> &Vec<String> {
@@ -56,8 +42,8 @@ fn task_create(task_vector: &mut Vec<String>) -> &Vec<String> {
 
     task_list.push(response);
     task_list
-    
 }
+
 fn task_delete(task_list: &mut Vec<String>) {
     loop {
         let vector_size: i32  = (task_list.len() - 1).try_into().unwrap();
@@ -78,6 +64,10 @@ fn task_delete(task_list: &mut Vec<String>) {
 
 fn task_read(task_list: &Vec<String>) {
     // Will Show the task list
+    if task_list.len() == 0 {
+        println!("Task list is currently empty. Returning");
+        return
+    }
     let mut index = 1;
     for task in task_list.iter() {
         println!("{index}) {task}");
@@ -95,12 +85,14 @@ fn get_input() -> String {
         Ok(input) => input,
         Err(_) => {println!("ERROR"); return Default::default()},
     };
-    input
+    return input
 }
+
 fn continuation_response_question() -> bool {
     loop {
         let mut str = get_input();
         str.make_ascii_uppercase();
+
         if str == "N" {
             return false
         } else if str == "Y" {
@@ -110,6 +102,5 @@ fn continuation_response_question() -> bool {
             continue
         }
     }
-    
 }
 
