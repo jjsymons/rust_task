@@ -8,13 +8,12 @@ fn main() {
     let mut continuation_bool = true;
 
     while continuation_bool {
-        println!("Would you like to add a task (A), delete a task (B) or read your current tasks (C)?:\nPlease enter:\n'A', 'B' or 'C'");
+        println!("Would you like to add a task (A), delete a task (B) or read your current tasks (C)?:\nPlease enter:\n'A'/'a', 'B'/'b' or 'C'/'c'");
         
         let mut answer = get_input();
         answer.make_ascii_uppercase();
 
         if answer == "A" {
-            println!("A Given");
             task_create(&mut task_vector);
             continuation_bool = continuation_response_question();
             continue
@@ -24,7 +23,6 @@ fn main() {
             continue
         } if answer == "C" {
             // Display tasks
-            println!("C Given");
             task_read(&task_vector);
             continuation_bool = continuation_response_question();
             continue
@@ -33,6 +31,7 @@ fn main() {
             continue
         }
     }
+    println!("Exiting");
 }
 
 fn task_create(task_vector: &mut Vec<String>) -> &Vec<String> {
@@ -46,29 +45,34 @@ fn task_create(task_vector: &mut Vec<String>) -> &Vec<String> {
 
 fn task_delete(task_list: &mut Vec<String>) {
     loop {
-        let vector_size: i32  = (task_list.len() - 1).try_into().unwrap();
+        let mut answer = get_input().parse::<i32>().unwrap();
+        let vector_size: i32  = task_list.len().try_into().unwrap();
+
+        if vector_size.len() < 1 {
+            println!("Task list is empty, returning.")
+            return 
+        }
 
         println!("Please give the number of the task you wish to remove from the list");
         println!("Please give an answer between 1 and {vector_size}");
 
-        let mut answer = get_input().parse::<i32>().unwrap();
         answer -= 1;
 
         if answer < 0 {
             println!("Error your input was 0");
-        } else if answer > vector_size {
+        } else if answer > (vector_size -1) {
             println!("Error you entered a value greater than {vector_size}");
-        } else if answer == vector_size {
+        } else if answer == (vector_size -1)  {
             task_list.pop();
         } else {
             task_list.remove(answer.try_into().unwrap());
-        }
+        } // Need else for non-int inputs.
         return
     }
 }
 
 fn task_read(task_list: &Vec<String>) {
-    // Will Show the task list
+    // Will show the task list to the user 
     if task_list.len() == 0 {
         println!("Task list is currently empty. Returning");
         return
@@ -81,6 +85,7 @@ fn task_read(task_list: &Vec<String>) {
 }
 
 fn get_input() -> String {
+    // Function to get input from user when needed
     let mut input = String::new();
     io::stdin()
         .read_line(&mut input)
@@ -94,6 +99,7 @@ fn get_input() -> String {
 }
 
 fn continuation_response_question() -> bool {
+    // function to see if the program should exit, returning a bool to a while loop in the main
     loop {
         println!("Would you like to continue?:\n'Y'/'y' for yes or 'N'/'n' for no.");
         let mut str = get_input();
