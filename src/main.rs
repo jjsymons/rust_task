@@ -45,15 +45,23 @@ fn task_create(task_vector: &mut Vec<String>) -> &Vec<String> {
 
 fn task_delete(task_list: &mut Vec<String>) {
     loop {
-        let mut answer = get_input().parse::<i32>().unwrap();
+        println!("Please give the number of the task you wish to remove from the list");
+        let mut answer = loop {
+            let mut user_input = get_input().parse::<i32>().unwrap();
+            if let Ok(val) = user_input.parse::<f32>() {
+                println!("Successful Input");
+                break val;
+            } else {
+                println!("Incorrect output");
+            }
+        };
         let vector_size: i32  = task_list.len().try_into().unwrap();
 
-        if vector_size.len() < 1 {
-            println!("Task list is empty, returning.")
+        if vector_size < 1 {
+            println!("Task list is empty, returning.");
             return 
         }
 
-        println!("Please give the number of the task you wish to remove from the list");
         println!("Please give an answer between 1 and {vector_size}");
 
         answer -= 1;
@@ -64,9 +72,12 @@ fn task_delete(task_list: &mut Vec<String>) {
             println!("Error you entered a value greater than {vector_size}");
         } else if answer == (vector_size -1)  {
             task_list.pop();
-        } else {
+        } else if answer > 0 {
             task_list.remove(answer.try_into().unwrap());
-        } // Need else for non-int inputs.
+        } else {
+            println!("ERROR: You entered a non-numberical value, please try again.");
+            continue
+        }
         return
     }
 }
