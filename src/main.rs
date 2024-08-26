@@ -10,7 +10,7 @@ fn main() {
     while continuation_bool {
         println!("Would you like to add a task (A), delete a task (B) or read your current tasks (C)?:\nPlease enter:\n'A'/'a', 'B'/'b' or 'C'/'c'");
         
-        let mut answer = get_input();
+        let mut answer = get_input_string();
         answer.make_ascii_uppercase();
 
         if answer == "A" {
@@ -36,7 +36,7 @@ fn main() {
 
 fn task_create(task_vector: &mut Vec<String>) -> &Vec<String> {
     println!("Please give a task you wish to add to your tasks?");
-    let response = get_input();
+    let response = get_input_string();
     let task_list: &mut Vec<String> = task_vector;
 
     task_list.push(response);
@@ -46,16 +46,10 @@ fn task_create(task_vector: &mut Vec<String>) -> &Vec<String> {
 fn task_delete(task_list: &mut Vec<String>) {
     loop {
         println!("Please give the number of the task you wish to remove from the list");
-        let mut answer = loop {
-            let mut user_input = get_input().parse::<i32>().unwrap();
-            if let Ok(val) = user_input.parse::<f32>() {
-                println!("Successful Input");
-                break val;
-            } else {
-                println!("Incorrect output");
-            }
-        };
-        let vector_size: i32  = task_list.len().try_into().unwrap();
+
+        let mut answer = get_input_integer();
+
+        let vector_size = task_list.len();
 
         if vector_size < 1 {
             println!("Task list is empty, returning.");
@@ -63,7 +57,6 @@ fn task_delete(task_list: &mut Vec<String>) {
         }
 
         println!("Please give an answer between 1 and {vector_size}");
-
         answer -= 1;
 
         if answer < 0 {
@@ -73,7 +66,7 @@ fn task_delete(task_list: &mut Vec<String>) {
         } else if answer == (vector_size -1)  {
             task_list.pop();
         } else if answer > 0 {
-            task_list.remove(answer.try_into().unwrap());
+            task_list.remove(answer);
         } else {
             println!("ERROR: You entered a non-numberical value, please try again.");
             continue
@@ -82,20 +75,20 @@ fn task_delete(task_list: &mut Vec<String>) {
     }
 }
 
-fn task_read(task_list: &Vec<String>) {
+fn task_read(_task_list: &Vec<String>) {
     // Will show the task list to the user 
-    if task_list.len() == 0 {
+    if _task_list.len() == 0 {
         println!("Task list is currently empty. Returning");
         return
     }
     let mut index = 1;
-    for task in task_list.iter() {
+    for task in _task_list.iter() {
         println!("{index}) {task}");
         index += 1;
     }
 }
 
-fn get_input() -> String {
+fn get_input_string() -> String {
     // Function to get input from user when needed
     let mut input = String::new();
     io::stdin()
@@ -106,14 +99,28 @@ fn get_input() -> String {
         Ok(input) => input,
         Err(_) => {println!("ERROR"); return Default::default()},
     };
-    return input
+    input
+}
+fn get_input_integer() -> usize {
+    // Function to get input from user when needed
+    loop {
+        let mut input = String::new();
+        io::stdin()
+            .read_line(&mut input)
+            .expect("Failed to get result");
+
+    let input: usize = match input.trim().parse() {
+        Ok(input) => return input,
+        Err(_) => {println!("ERROR, Please give a new input: "); continue},
+        };
+    } 
 }
 
 fn continuation_response_question() -> bool {
     // function to see if the program should exit, returning a bool to a while loop in the main
     loop {
         println!("Would you like to continue?:\n'Y'/'y' for yes or 'N'/'n' for no.");
-        let mut str = get_input();
+        let mut str = get_input_string();
         str.make_ascii_uppercase();
 
         if str == "N" {
