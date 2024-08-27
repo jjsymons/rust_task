@@ -8,7 +8,7 @@ fn main() {
     loop {
         println!("Would you like to add a task (A), delete a task (B), read your current tasks (C) or (E) to Exit?:\nPlease enter:\n'A', 'B', 'C' or 'E'");
         
-        let mut answer = get_input_string();
+        let mut answer = get_input_str();
         answer.make_ascii_uppercase();
 
         if answer == "A" {
@@ -35,7 +35,7 @@ fn main() {
 fn task_create(task_vector: &mut Vec<String>) {
     // Creates a task and inserts into task_vector returns the vector
     println!("Please give a task you wish to add to your tasks?");
-    let input = get_input_string();
+    let input = get_input_str();
     task_vector.push(input);
 }
 
@@ -47,7 +47,7 @@ fn task_delete(task_list: &mut Vec<String>) {
             return 
         }
         println!("Please give the number of the task you wish to remove from the list between 1 and {vector_size}.");
-        let input = get_input_integer();
+        let input = get_input_isize();
 
         if input < 0 {
             println!("Value is less than 0. Please enter a value greater than 0.");
@@ -81,8 +81,8 @@ fn task_read(_task_list: &Vec<String>) {
     }
 }
 
-fn get_input_string() -> String {
-    // Function to get input from user when needed
+fn get_input_str() -> String {
+    // Function to get input from user and return string
     let mut input = String::new();
     io::stdin()
         .read_line(&mut input)
@@ -94,8 +94,8 @@ fn get_input_string() -> String {
     };
     input
 }
-fn get_input_integer() -> isize {
-    // Function to get input from user when needed
+fn get_input_isize() -> isize {
+    // Function to get input from user that can be used for integers and comparisons and return isize
     loop {
         let mut input = String::new();
         io::stdin()
@@ -105,7 +105,7 @@ fn get_input_integer() -> isize {
         let _input: isize = match input.trim().parse() {
             Ok(input) => return input,
             Err(_) => {println!("ERROR, Please give a new numberic input: "); continue},
-            };
+        };
     } 
 }
 
