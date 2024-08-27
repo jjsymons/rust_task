@@ -43,26 +43,21 @@ fn task_create(task_vector: &mut Vec<String>) -> &Vec<String> {
 
 fn task_delete(task_list: &mut Vec<String>) {
     loop {
-        println!("Please give the number of the task you wish to remove from the list");
-        println!("Please give an answer between 1 and {vector_size}.");
-
-        let answer = get_input_integer();
-
         let vector_size = task_list.len();
-
         if vector_size < 1 {
-            println!("Task list is empty, returning.");
+            println!("Task list is empty, you will need to add tasks first, returning.");
             return 
         }
-        if answer < 0 {
-            println!("Value is less than 0.");
+        println!("Please give the number of the task you wish to remove from the list between 1 and {vector_size}.");
+        let input = get_input_integer();
+
+        if input < 0 {
+            println!("Value is less than 0. Please enter a value greater than 0.");
             continue
         }
-        let mut answer: usize = answer.try_into().unwrap();
 
-
+        let mut answer: usize = input.try_into().unwrap();
         answer -= 1;
-        println!("{vector_size}");
 
         if answer > (vector_size - 1) {
             println!("Error you entered a value greater than {vector_size}.");
@@ -78,7 +73,7 @@ fn task_delete(task_list: &mut Vec<String>) {
 fn task_read(_task_list: &Vec<String>) {
     // Will show the task list to the user 
     if _task_list.len() == 0 {
-        println!("Task list is currently empty. Returning");
+        println!("Task list is empty, you will need to add tasks first, returning.");
         return
     }
     let mut index = 1;
