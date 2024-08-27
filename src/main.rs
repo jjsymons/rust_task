@@ -32,13 +32,11 @@ fn main() {
     println!("Exiting");
 }
 
-fn task_create(task_vector: &mut Vec<String>) -> &Vec<String> {
+fn task_create(task_vector: &mut Vec<String>) {
+    // Creates a task and inserts into task_vector returns the vector
     println!("Please give a task you wish to add to your tasks?");
-    let response = get_input_string();
-    let task_list: &mut Vec<String> = task_vector;
-
-    task_list.push(response);
-    task_list
+    let input = get_input_string();
+    task_vector.push(input);
 }
 
 fn task_delete(task_list: &mut Vec<String>) {
