@@ -23,13 +23,13 @@ fn main() {
             continue
         } if answer == "E" {
             // Exits
+            println!("Exiting");
             break
         } else {
             println!("A input of something other than A, B, C or E given:\n'{answer}'");
             continue
         }
     }
-    println!("Exiting");
 }
 
 fn task_create(task_vector: &mut Vec<String>) {
@@ -90,7 +90,7 @@ fn get_input_str() -> String {
 
     let input: String = match input.trim().parse() {
         Ok(input) => input,
-        Err(_) => {println!("ERROR"); return Default::default()},
+        Err(_) => { println!("ERROR"); return Default::default() },
     };
     input
 }
@@ -104,7 +104,7 @@ fn get_input_isize() -> isize {
 
         let _input: isize = match input.trim().parse() {
             Ok(input) => return input,
-            Err(_) => {println!("ERROR, Please give a new numberic input: "); continue},
+            Err(_) => { println!("ERROR, Please give a new numberic input: "); continue },
         };
     } 
 }
